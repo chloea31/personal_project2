@@ -8,4 +8,5 @@ dependencies:
   - jupyter # => Command-line: conda install anaconda::jupyter
   - pandas 
   - sra-tools
+  - seqkit
   - pip
