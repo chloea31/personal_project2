@@ -1,0 +1,11 @@
+name: env_blast
+channels:
+  - conda-forge
+  - bioconda
+  - anaconda
+dependencies:
+  - python>=3.10 # 3.14.2
+  - jupyter # 1.1.1 => Command-line: conda install anaconda::jupyter
+  - pandas # 3.0.1
+  - blast
+  - pip
