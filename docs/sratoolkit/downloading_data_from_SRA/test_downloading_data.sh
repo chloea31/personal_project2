@@ -36,5 +36,11 @@ ls -l
 fasterq-dump SRR1553607 
 
 # Navigating NCBI SRA
+# In ./docs/sratoolkit/downloading_data_from_SRA/ncbi_sra:
 head -n 3 runaccessions.txt > runids.txt
+
+# Using the "parallel" tool for automating downloads
+sudo apt install moreutils
+cat runids.txt | parallel -j 1 fastq-dump -X 10000 --split-files {}
+cat runids.txt | parallel fastq-dump -X 10000 --split-files
 
