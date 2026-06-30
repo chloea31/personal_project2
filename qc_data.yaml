@@ -1,0 +1,12 @@
+name: env_qc_data
+channels:
+  - conda-forge
+  - bioconda
+  - anaconda
+dependencies:
+  - python>=3.10 
+  - jupyter # => Command-line: conda install anaconda::jupyter
+  - pandas 
+  - fastp
+  - fastqc
+  - pip
