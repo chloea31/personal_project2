@@ -30,6 +30,9 @@ sed -i 's/\r$//' $WORK_DIR/data/baoshan/SRR_Acc_List.txt
 for i in $(cat $WORK_DIR/data/baoshan/SRR_Acc_List.txt); 
 do
     echo $i
+    if [ ! -d $WORK_DIR/data/baoshan/$i ]; then
+        mkdir -p "$WORK_DIR/data/baoshan/$i"
+    fi 
     echo "fastq-dump $i"
-    fastq-dump --gzip --split-files --outdir $WORK_DIR/data/baoshan/ "$i"
+    fastq-dump --gzip --split-files --readids --dumpbase --clip --outdir $WORK_DIR/data/baoshan/$i "$i"
 done 
