@@ -34,5 +34,14 @@ do
         mkdir -p "$WORK_DIR/data/baoshan/$i"
     fi 
     echo "fastq-dump $i"
-    fastq-dump --gzip --split-files --readids --dumpbase --clip --outdir $WORK_DIR/data/baoshan/$i "$i"
+    fastq-dump --gzip \
+    --split-files \
+    --readids \
+    --dumpbase \
+    --clip \
+    --outdir $WORK_DIR/data/baoshan/$i \
+    --log-level 5 \
+    --verbose "$i"
 done 
+# According to the article, the data provided in SRA database would be already uploaded skipping technicals, so we might want to
+# not include the --skip-technicals option here.
