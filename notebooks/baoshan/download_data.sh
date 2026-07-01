@@ -45,3 +45,7 @@ done
 # According to the article, the data provided in SRA database would be already uploaded skipping technicals, so we might want to
 # not include the --skip-technicals option here.
 
+# Cannot download all the data => Try to figure out what is going wrong
+# Command-line launched without all of the previous arguments:
+# fastq-dump --gzip --split-files --readids <accession>
+
