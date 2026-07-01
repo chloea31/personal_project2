@@ -67,5 +67,5 @@ do
         mkdir -p "$WORK_DIR/data/baoshan/prefetch/$i/$i/fasterq"
     fi 
     echo "fasterq-dump $i"
-    fasterq-dump $i --split-3 --threads 8 --progress --outdir $WORK_DIR/data/baoshan/prefetch/$i/$i/fasterq
+    fasterq-dump $i --split-3 --threads 8 --progress --outdir $WORK_DIR/data/baoshan/prefetch/$i/$i/fasterq | gzip *.fastq
 done 
