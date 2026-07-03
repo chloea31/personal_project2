@@ -53,6 +53,10 @@ This project is developed by Chloé Aujoulat.
 ### Tutorials
 - SRA NCBI database: 
     - Website: https://www.ncbi.nlm.nih.gov/sra
+- SRA toolkit:
+    - Websites: 
+        - https://hpc.nih.gov/apps/sratoolkit.html 
+        - https://github.com/ncbi/sra-tools/wiki
 - Downloading data from SRA NCBI dataabse: 
     - https://bioinformatics.ccr.cancer.gov/docs/b4b/Module1_Unix_Biowulf/Lesson6/
 
