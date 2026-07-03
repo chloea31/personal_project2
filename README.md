@@ -11,7 +11,11 @@
 <a name="descrp"></a>
 
 ## Description
-The goal of this project is to learn about viruses and reproduce results and analysis from scientific articles. 
+The goal of this project is to learn about viruses and reproduce results and analysis from scientific articles.
+
+The pipeline is designed as follow:
+
+![alt text](2026_06_29_genome_assembly_baoshan.png)
 
 ## Requirements
 
@@ -45,4 +49,13 @@ This project is developed by Chloé Aujoulat.
 <a name="references"></a> 
 
 ## References
+
+### Tutorials
+- SRA NCBI database: 
+    - Website: https://www.ncbi.nlm.nih.gov/sra
+- Downloading data from SRA NCBI dataabse: 
+    - https://bioinformatics.ccr.cancer.gov/docs/b4b/Module1_Unix_Biowulf/Lesson6/
+
+### Articles
+- Xia, Yucheng, Huanyu Cheng, et Jiang Zhong. « Hybrid Sequencing Resolved Inverted Terminal Repeats in the Genome of Megavirus Baoshan ». Frontiers in Microbiology 13 (mai 2022): 831659. https://doi.org/10.3389/fmicb.2022.831659.
 
