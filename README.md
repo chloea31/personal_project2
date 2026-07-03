@@ -50,14 +50,17 @@ This project is developed by Chloé Aujoulat.
 
 ## References
 
-### Tutorials
+### Documentation
 - SRA NCBI database: 
     - Website: https://www.ncbi.nlm.nih.gov/sra
 - SRA toolkit:
     - Websites: 
         - https://hpc.nih.gov/apps/sratoolkit.html 
         - https://github.com/ncbi/sra-tools/wiki
-- Downloading data from SRA NCBI dataabse: 
+- FastQC: https://www.bioinformatics.babraham.ac.uk/projects/fastqc/ 
+
+### Tutorials
+- Downloading data from SRA NCBI database: 
     - https://bioinformatics.ccr.cancer.gov/docs/b4b/Module1_Unix_Biowulf/Lesson6/
 
 ### Articles
