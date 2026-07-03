@@ -57,7 +57,12 @@ This project is developed by Chloé Aujoulat.
     - Websites: 
         - https://hpc.nih.gov/apps/sratoolkit.html 
         - https://github.com/ncbi/sra-tools/wiki
-- FastQC: https://www.bioinformatics.babraham.ac.uk/projects/fastqc/ 
+- Downloading data from SRA NCBI database:
+    - Fastq-dump: https://rnnh.github.io/bioinfo-notebook/docs/fastq-dump.html 
+    - Prefetch and fasterq-dump: https://github.com/ncbi/sra-tools/wiki/08.-prefetch-and-fasterq-dump 
+- Quality control of the data:
+    - Fastp: https://github.com/opengene/fastp 
+    - FastQC: https://www.bioinformatics.babraham.ac.uk/projects/fastqc/ 
 
 ### Tutorials
 - Downloading data from SRA NCBI database: 
