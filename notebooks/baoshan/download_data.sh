@@ -55,15 +55,19 @@ do
     echo $i
     if [ ! -d $WORK_DIR/data/baoshan/prefetch ]; then
         mkdir -p "$WORK_DIR/data/baoshan/prefetch"
-    fi 
-    echo "prefetch $i"
-    prefetch --progress --output-directory $WORK_DIR/data/baoshan/prefetch $i
+    fi
+    if [ ! -f $WORK_DIR/data/baoshan/prefetch/$i/${i}.sra ]; then 
+        echo "prefetch $i"
+        prefetch --progress --output-directory $WORK_DIR/data/baoshan/prefetch $i
+    fi
 done 
 
 for i in $(cat $WORK_DIR/data/baoshan/SRR_Acc_List_v2.txt); 
 do
     echo $i
-    echo "fasterq-dump $i"
-    fasterq-dump $i --split-3 --threads 8 --progress --outdir $WORK_DIR/data/baoshan/prefetch/$i | \
-        gzip -v -c > $WORK_DIR/data/baoshan/prefetch/$i/fasterq/$i.fastq.gz
+    if [ -f $WORK_DIR/data/baoshan/prefetch/$i/${i}.sra ]; then
+        echo "fasterq-dump $i"
+        fasterq-dump $i --split-3 --threads 1 --progress --outdir $WORK_DIR/data/baoshan/prefetch/$i | \
+            gzip -v -c > $WORK_DIR/data/baoshan/prefetch/$i/fasterq/$i.fastq.gz
+    fi
 done 
