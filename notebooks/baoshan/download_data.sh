@@ -68,6 +68,6 @@ do
     if [ -f $WORK_DIR/data/baoshan/prefetch/$i/${i}.sra ]; then
         echo "fasterq-dump $i"
         fasterq-dump $i --split-3 --threads 1 --progress --outdir $WORK_DIR/data/baoshan/prefetch/$i | \
-            gzip -v -c > $WORK_DIR/data/baoshan/prefetch/$i/fasterq/$i.fastq.gz
+            gzip -v -c > $WORK_DIR/data/baoshan/prefetch/$i/$i.fastq.gz
     fi
 done 
