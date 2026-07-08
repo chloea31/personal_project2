@@ -10,8 +10,17 @@
 nextflow.enable.dsl=2 
 
 // Initialize default parameters
+params.help = true
 
 // Getting help message
+// if ( params.help ) {
+//     help = """--
+//         |Mandatory arguments:
+//         |Optional arguments:
+//     --
+//     """.stripMargin()
+//     println(help)
+// }
 
 // Defining processes
 
@@ -25,10 +34,15 @@ process downloadFiles {
         text_file
 
     output:
-        path "${workflow.projectDir}/data/baoshan/prefetch"
+        path "${workflow.projectDir}/data/baoshan/prefetch/*.sra"
+        path "${workflow.projectDir}/data/baoshan/prefetch/*.fastq.gz"
 
     script:
     """
     prefetch --progress ${accession}
     """
+}
+
+workflow {
+    
 }
