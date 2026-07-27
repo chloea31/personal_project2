@@ -26,7 +26,7 @@ WORK_DIR=/mnt/c/Users/chloe/Documents/Bioinformatique/personal_project2
 ###################################
 echo ">downloading the datasets"
 
-sed -i 's/\r$//' $WORK_DIR/data/baoshan/SRR_Acc_List_v2.txt
+sed -i 's/\r$//' $WORK_DIR/data/baoshan/SRR_Acc_List.txt
 # for i in $(cat $WORK_DIR/data/baoshan/SRR_Acc_List.txt); 
 # do
 #     echo $i
@@ -50,7 +50,7 @@ sed -i 's/\r$//' $WORK_DIR/data/baoshan/SRR_Acc_List_v2.txt
 # Command-line launched without all of the previous arguments:
 # fastq-dump --gzip --split-files --readids <accession>
 
-for i in $(cat $WORK_DIR/data/baoshan/SRR_Acc_List_v2.txt); 
+for i in $(cat $WORK_DIR/data/baoshan/SRR_Acc_List.txt); 
 do
     echo $i
     if [ ! -d $WORK_DIR/data/baoshan/prefetch ]; then
@@ -62,7 +62,7 @@ do
     fi
 done 
 
-for i in $(cat $WORK_DIR/data/baoshan/SRR_Acc_List_v2.txt); 
+for i in $(cat $WORK_DIR/data/baoshan/SRR_Acc_List.txt); 
 do
     echo $i
     if [ -f $WORK_DIR/data/baoshan/prefetch/$i/${i}.sra ]; then
