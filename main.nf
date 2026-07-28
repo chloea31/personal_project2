@@ -20,11 +20,12 @@ process downloadFiles {
 
     publishDir "${workflow.projectDir}/data/baoshan/prefetch"
 
-    input:
+    input: // choose its name, not its value, so no whole path here
         path text_file
 
-    output: // the pipeline needs to know where to take the files in the work/ directory
-        path "*.fastq*" 
+    output: // choose its value, not its name, as return function in Python 
+    // the pipeline needs to know where to take the files in the work/ directory
+        path "prefetch/*" 
 
     script:
     """
