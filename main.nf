@@ -18,13 +18,13 @@ process downloadFiles {
 
     conda '/home/caujoulat/miniforge3/envs/download_data_viruses/'
 
-    publishDir '${workflow.projectDir}/data/baoshan/prefetch'
+    publishDir "${workflow.projectDir}/data/baoshan/prefetch"
 
     input:
         path text_file
 
     output: // the pipeline needs to know where to take the files in the work/ directory
-        path "data/baoshan/prefetch/*" 
+        path "prefetch/*.fastq*" 
 
     script:
     """
