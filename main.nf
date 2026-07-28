@@ -7,7 +7,7 @@
 ////////////////////////////////////////////////////////////////
 
 
-// Command-line in personal_project2/ repository: nextflow run main.nf -with-conda
+// Command-line in personal_project2/ repository: nextflow run main.nf -with-conda -ansi-log false
 
 // Declare synthax version
 nextflow.enable.dsl=2 
@@ -24,7 +24,7 @@ process downloadFiles {
         path text_file
 
     output: // the pipeline needs to know where to take the files in the work/ directory
-        path "prefetch/*.fastq*" 
+        path "*.fastq*" 
 
     script:
     """
