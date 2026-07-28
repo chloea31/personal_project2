@@ -38,6 +38,6 @@ workflow {
     println(workflow.projectDir)
     println(workflow.launchDir)
     println(workflow.homeDir)
-    accessions = Channel.of("${workflow.projectDir}/data/baoshan/SRR_Acc_List.txt")
+    accessions = Channel.of("${workflow.projectDir}/data/baoshan/SRR_Acc_List_v1.txt")
     data = downloadFiles(accessions)
 }
