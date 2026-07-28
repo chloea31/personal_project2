@@ -7,7 +7,7 @@
 ////////////////////////////////////////////////////////////////
 
 
-// Command-line: nextflow run main.nf -with-conda
+// Command-line in personal_project2/ repository: nextflow run main.nf -with-conda
 
 // Declare synthax version
 nextflow.enable.dsl=2 
@@ -23,9 +23,8 @@ process downloadFiles {
     input:
         path text_file
 
-    output:
-        //path "${workflow.projectDir}/data/baoshan/prefetch/*.sra"
-        path "*.fastq.gz"
+    output: // the pipeline needs to know where to take the files in the work/ directory
+        path "data/baoshan/prefetch/*" 
 
     script:
     """
@@ -34,8 +33,11 @@ process downloadFiles {
 }
 
 workflow {
+    println(workflow.commandLine)
+    println(workflow.start)
     println(workflow.projectDir)
     println(workflow.launchDir)
+    println(workflow.homeDir)
     accessions = Channel.of("${workflow.projectDir}/data/baoshan/SRR_Acc_List.txt")
     data = downloadFiles(accessions)
 }
