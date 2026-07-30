@@ -13,23 +13,41 @@
 nextflow.enable.dsl=2 
 
 
-
-process downloadFiles { 
+process Prefetch { 
 
     conda '/home/caujoulat/miniforge3/envs/download_data_viruses/'
 
-    publishDir "${workflow.projectDir}/data/baoshan/prefetch"
+    // publishDir "${workflow.projectDir}/data/baoshan/prefetch"
 
     input: // choose its name, not its value, so no whole path here
-        path text_file
+        val accession 
 
     output: // choose its value, not its name, as return function in Python 
     // the pipeline needs to know where to take the files in the work/ directory
-        path "prefetch/*" 
+        path "${accession}" // the output is the folder itself
 
     script:
     """
-    ${workflow.projectDir}/notebooks/baoshan/download_data.sh 
+    prefetch ${accession}
+    """
+}
+
+process FastqDump {
+
+    conda '/home/caujoulat/miniforge3/envs/download_data_viruses/'
+
+    // publishDir "${workflow.projectDir}/data/baoshan/prefetch"
+
+    input:
+        path sra_folder
+
+    output:
+        path "*.fastq.gz" // returns a list of all fastq files in a single list in the current directory 
+
+    script:
+    """
+    fasterq-dump ${sra_folder} --split-3 --threads 1
+    gzip -v *.fastq.gz
     """
 }
 
@@ -39,6 +57,10 @@ workflow {
     println(workflow.projectDir)
     println(workflow.launchDir)
     println(workflow.homeDir)
-    accessions = Channel.of("${workflow.projectDir}/data/baoshan/SRR_Acc_List_v1.txt")
-    data = downloadFiles(accessions)
+    accessions = Channel
+        .fromPath("${workflow.projectDir}/data/baoshan/SRR_Acc_List_v1.txt")
+        .splitText()
+        .map { it.trim() } // Clean up whitespace
+    sra_folders = Prefetch(accessions)
+    fastq_files = FastqDump(sra_folders)
 }
