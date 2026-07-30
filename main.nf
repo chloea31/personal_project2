@@ -32,7 +32,7 @@ process Prefetch {
     """
 }
 
-process FastqDump {
+process FasterqDump {
 
     conda '/home/caujoulat/miniforge3/envs/download_data_viruses/'
 
@@ -46,8 +46,7 @@ process FastqDump {
 
     script:
     """
-    fasterq-dump ${sra_folder} --split-3 --threads 1
-    gzip -v *.fastq.gz
+    fasterq-dump ${sra_folder} --split-3 --threads 1 | gzip -v *.fastq.gz
     """
 }
 
@@ -62,5 +61,5 @@ workflow {
         .splitText()
         .map { it.trim() } // Clean up whitespace
     sra_folders = Prefetch(accessions)
-    fastq_files = FastqDump(sra_folders)
+    fastq_files = FasterqDump(sra_folders)
 }
