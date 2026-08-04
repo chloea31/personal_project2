@@ -46,7 +46,7 @@ process FasterqDump {
 
     script:
     """
-    fasterq-dump ${sra_folder} --split-3 
+    fasterq-dump ${sra_folder} --split-3 --threads 1
     gzip *.fastq
     """
 }
