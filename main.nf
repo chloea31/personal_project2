@@ -58,7 +58,7 @@ workflow {
     println(workflow.launchDir)
     println(workflow.homeDir)
     accessions = Channel
-        .fromPath("${workflow.projectDir}/data/baoshan/SRR_Acc_List_v1.txt")
+        .fromPath("${workflow.projectDir}/data/baoshan/SRR_Acc_List.txt")
         .splitText()
         .map { it.trim() } // Clean up whitespace
     sra_folders = Prefetch(accessions)
