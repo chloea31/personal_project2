@@ -5,7 +5,7 @@ nextflow.enable.dsl=2
 
 process CreateFile {
 
-    publishDir "docs/${acc}"
+    publishDir "nextflow/${acc}"
 
     input:
         val acc
