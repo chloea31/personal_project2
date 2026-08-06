@@ -20,6 +20,6 @@ process CreateFile {
 }
 
 workflow {
-    values = Channel.fromList(["swimming", "doing gymnastic"])
+    values = Channel.fromList(["swimming", "doing_gymnastic"])
     text_file = CreateFile(values)
 }
