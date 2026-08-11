@@ -58,23 +58,19 @@ process FasterqDump {
 
 process QC {
 
-    conda '/home/caujoulat/miniforge3/envs/qc/'
+    conda '/home/caujoulat/miniforge3/envs/qc'
+
+    publishDir "${workflow.projectDir}/reports/qc_results/baoshan"
 
     input:
-        path fastq_R1
-        path fastq_R2
+        path fastq
 
     output:
         path "*.html"
-        path "*.json"
-        path "*.fq.gz"
 
     script:
     """
-    fastp -i ${fastq_R1} -I ${fastq_R2} -o out_R1.fq.gz -O out_R2.fq.gz
-    fastqc ${fastq_R1} 
-    fastqc ${fastq_R2}
-    multiqc 
+    fastqc ${fastq}
     """
 }
 
@@ -90,4 +86,5 @@ workflow {
         .map { it.trim() } // Clean up whitespace
     (sra_folders, accessions) = Prefetch(accessions)
     fastq_files = FasterqDump(sra_folders, accessions)
+    qc_fastq_files = QC(fastq_files)
 }
