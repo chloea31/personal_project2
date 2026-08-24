@@ -56,11 +56,33 @@ process FasterqDump {
     """
 }
 
+process FASTP {
+
+    conda '/home/caujoulat/miniforge3/envs/fastp'
+
+    publishDir "${workflow.projectDir}/reports/baoshan_results/fastp"
+
+    input:
+        path fastq_R1
+        path fastq_R2
+        val accession
+
+    output:
+        path "*.html"
+        path "*.fq.gz"
+
+    script:
+    """
+    r1 = fastq_R1.getBaseName
+    fastp -i "${fastq_R1}" -I "${fastq_R2}" -o "${fastq_R1.baseName}.fq.gz" -O "${fastq_R2.baseName}.fq.gz"
+    """
+}
+
 process QC {
 
     conda '/home/caujoulat/miniforge3/envs/qc'
 
-    publishDir "${workflow.projectDir}/reports/qc_results/baoshan"
+    publishDir "${workflow.projectDir}/reports/baoshan_results/qc"
 
     input:
         path fastq
@@ -72,6 +94,25 @@ process QC {
     """
     fastqc ${fastq}
     """
+}
+
+process MultiQC {
+
+    conda '/home/caujoulat/miniforge3/envs/multiqc'
+
+    publishDir "${workflow.projectDir}/reports/baoshan_results/multiqc"
+
+    input:
+        path all_reports
+
+    output:
+        path "*.html"
+
+    script:
+    """
+    multiqc ${all_reports}
+    """
+
 }
 
 workflow {
@@ -86,5 +127,7 @@ workflow {
         .map { it.trim() } // Clean up whitespace
     (sra_folders, accessions) = Prefetch(accessions)
     fastq_files = FasterqDump(sra_folders, accessions)
-    qc_fastq_files = QC(fastq_files)
+    //fastp_fastq_files = FASTP(fastq_files)
+    qc_fastq_files = QC(fastq_files.collect())
+    multiqc_report = MultiQC(qc_fastq_files)
 }
