@@ -1,0 +1,7 @@
+name: soapdenovo
+channels:
+  - conda-forge
+  - bioconda
+  - anaconda
+dependencies:
+  - soapdenovo2
