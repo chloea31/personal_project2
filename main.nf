@@ -103,15 +103,15 @@ process MultiQC {
     publishDir "${workflow.projectDir}/reports/baoshan_results/multiqc"
 
     input:
-        path html_report
+        path path2html_report // list of HTMLs, and the command echo displays the elements of the list with a space
 
     output:
         path "*.html"
 
     script:
     """
-    echo ${html_report} >> 
-    multiqc --file-list 
+    echo ${path2html_report} | tr ' ' '\n' > baoshan_file_list.txt
+    multiqc --file-list baoshan_file_list.txt
     """
 
 }
