@@ -9,7 +9,7 @@
 
 // How to run the pipeline in personal_project2/ repository:
 // 1) Activate the conda environment to get nextflow: conda activate nextflow
-// 2) Run the following command-line: nextflow run main.nf -with-conda -ansi-log false
+// 2) Run the following command-line: nextflow run -resume main.nf -with-conda
 
 // Declare synthax version
 nextflow.enable.dsl=2 
@@ -103,14 +103,15 @@ process MultiQC {
     publishDir "${workflow.projectDir}/reports/baoshan_results/multiqc"
 
     input:
-        path all_reports
+        path html_report
 
     output:
         path "*.html"
 
     script:
     """
-    multiqc ${all_reports}
+    echo ${html_report} >> 
+    multiqc --file-list 
     """
 
 }
@@ -123,11 +124,19 @@ workflow {
     println(workflow.homeDir)
     accessions = Channel
         .fromPath("${workflow.projectDir}/data/baoshan/SRR_Acc_List.txt")
-        .splitText()
+        .splitText() // Reads the file and generates 1 element/input per row
         .map { it.trim() } // Clean up whitespace
     (sra_folders, accessions) = Prefetch(accessions)
-    fastq_files = FasterqDump(sra_folders, accessions)
-    //fastp_fastq_files = FASTP(fastq_files)
-    qc_fastq_files = QC(fastq_files.collect())
-    multiqc_report = MultiQC(qc_fastq_files)
+    fastq_files = FasterqDump(sra_folders, accessions) // returns a list of 2 fastq files each time (each run)
+    // fastp_fastq_files = FASTP(fastq_files)
+    qc_fastq_files = QC(fastq_files.flatten()) // flatten() calls QC for each element of the list, so 2 (1 and 2 here)
+    // It can call QC as soon as the 2 first elements of the previous process (FasterqDump here) has been completed.
+    // Allows 13 -> 25 elements as inputs (because we have 2 files for each accession, and we run the QC for each FASTQ).
+    // Channel: contains several elements inside, which follow each other, as a list.
+    // FasterqDump: returns a list for each element of the list => Output: list of list.
+    // flatten(): flattens the double list as a single list. 
+    multiqc_report = MultiQC(qc_fastq_files.collect()) // collect() operator returns a list of files; waits until the
+    // previous process has been completed, QC here
 }
+
+// Cardinality: very important => Check the workflow (maybe ok here)
