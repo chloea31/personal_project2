@@ -88,7 +88,7 @@ process QC {
         path fastq
 
     output:
-        path "*.html"
+        path "*_fastqc.{zip,html}"
 
     script:
     """
@@ -103,10 +103,12 @@ process MultiQC {
     publishDir "${workflow.projectDir}/reports/baoshan_results/multiqc"
 
     input:
-        path path2html_report // list of HTMLs, and the command echo displays the elements of the list with a space
+        path path2html_report // list of HTMLs and zip files, 
+        // and the command echo displays the elements of the list with a space
 
     output:
-        path "*.html"
+        path "multiqc_report.html"
+        path "multiqc_data"
 
     script:
     """
