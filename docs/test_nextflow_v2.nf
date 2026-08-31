@@ -22,14 +22,15 @@ process fetch {
 }
 
 process dump {
-    publishDir "test/fetch/${acc}"
+    //publishDir "test/fetch/${acc}"
 
     input:
         path tutu
         val acc
 
     output:
-        path "*.qvq"
+        path "toto.qvq"
+        path "tata.qvq"
 
     script:
     """
