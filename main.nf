@@ -39,15 +39,16 @@ process FasterqDump {
 
     conda '/home/caujoulat/miniforge3/envs/download_data_viruses/'
 
-    publishDir "${workflow.projectDir}/data/baoshan/prefetch/${accession}"
+    // publishDir "${workflow.projectDir}/data/baoshan/prefetch/${accession}"
 
     input:
         path sra_folder
         val accession
 
     output:
-        path "*.fastq.gz" // returns a list of all fastq files in a single list in the current directory (of the process)
+        path "${accession}_1.fastq.gz" // returns a list of all fastq files in a single list in the current directory (of the process)
     // indicates where I have to take the files in the repository of the process
+        path "${accession}_2.fastq.gz"
 
     script:
     """
@@ -82,13 +83,13 @@ process QC {
 
     conda '/home/caujoulat/miniforge3/envs/qc'
 
-    publishDir "${workflow.projectDir}/reports/baoshan_results/qc"
+    // publishDir "${workflow.projectDir}/reports/baoshan_results/qc"
 
     input:
         path fastq
 
     output:
-        path "*_fastqc.{zip,html}"
+        path "${fastq.baseName}.{zip,html}"
 
     script:
     """
@@ -125,19 +126,20 @@ workflow {
     println(workflow.launchDir)
     println(workflow.homeDir)
     accessions = Channel
-        .fromPath("${workflow.projectDir}/data/baoshan/SRR_Acc_List.txt")
+        .fromPath("${workflow.projectDir}/data/baoshan/SRR_Acc_List_v1.txt")
         .splitText() // Reads the file and generates 1 element/input per row
-        .map { it.trim() } // Clean up whitespace
-    (sra_folders, accessions) = Prefetch(accessions)
-    fastq_files = FasterqDump(sra_folders, accessions) // returns a list of 2 fastq files each time (each run)
+        .map { it.trim() } // Clean up whitespace; map() method allows application of an operation to each element of a list
+    (sra_folders, accessions2) = Prefetch(accessions)
+    (fastq_files_1, fastq_files_2) = FasterqDump(sra_folders, accessions2) // returns 2 lists of fastq files each time (each run)
     // fastp_fastq_files = FASTP(fastq_files)
-    qc_fastq_files = QC(fastq_files.flatten()) // flatten() calls QC for each element of the list, so 2 (1 and 2 here)
+    // qc_fastq_files = QC(fastq_files_1.mix(fastq_files_2)) 
+    // flatten() calls QC for each element of the list, so 2 (1 and 2 here, for each accession)
     // It can call QC as soon as the 2 first elements of the previous process (FasterqDump here) has been completed.
     // Allows 13 -> 25 elements as inputs (because we have 2 files for each accession, and we run the QC for each FASTQ).
     // Channel: contains several elements inside, which follow each other, as a list.
     // FasterqDump: returns a list for each element of the list => Output: list of list.
-    // flatten(): flattens the double list as a single list. 
-    multiqc_report = MultiQC(qc_fastq_files.collect()) // collect() operator returns a list of files; waits until the
+    // flatten(): flattens the double list as a single list: takes a list of lists and returns a single list 
+    // multiqc_report = MultiQC(qc_fastq_files.collect()) // collect() operator returns a list of files; waits until the
     // previous process has been completed, QC here
 }
 
