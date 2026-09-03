@@ -80,12 +80,11 @@ process FASTP {
 
     conda '/home/caujoulat/miniforge3/envs/fastp'
 
-    publishDir "${workflow.projectDir}/reports/baoshan_results/fastp"
+    //publishDir "${workflow.projectDir}/reports/baoshan_results/fastp"
 
     input:
         path fastq_R1
         path fastq_R2
-        val accession
 
     output:
         path "*.html"
@@ -93,8 +92,26 @@ process FASTP {
 
     script:
     """
-    r1 = fastq_R1.getBaseName
-    fastp -i "${fastq_R1}" -I "${fastq_R2}" -o "${fastq_R1.baseName}.fq.gz" -O "${fastq_R2.baseName}.fq.gz"
+    fastp -i "${fastq_R1}" -I "${fastq_R2}" -o "${fastq_R1.simpleName}_out.fq.gz" -O "${fastq_R2.simpleName}_out.fq.gz"
+    """
+}
+
+process POST_QC {
+
+    conda '/home/caujoulat/miniforge3/envs/qc'
+
+    // publishDir "${workflow.projectDir}/reports/baoshan_results/qc"
+
+    input:
+        path fastq
+
+    output:
+        //path "${fastq}.zip"
+        path "${fastq.simpleName}_fastqc.html"
+
+    script:
+    """
+    fastqc ${fastq}
     """
 }
 
@@ -102,7 +119,7 @@ process MultiQC {
 
     conda '/home/caujoulat/miniforge3/envs/multiqc'
 
-    publishDir "${workflow.projectDir}/reports/baoshan_results/multiqc"
+    // publishDir "${workflow.projectDir}/reports/baoshan_results/multiqc"
 
     input:
         path path2html_report // list of HTMLs and zip files, 
@@ -141,8 +158,13 @@ workflow {
     // FasterqDump: returns a list for each element of the list => Output: list of list.
     // flatten(): flattens the double list as a single list: takes a list of lists and returns a single list 
 
-    // fastp_fastq_files = FASTP(fastq_files)
+    // 2. QC and Trimming
+    (fastp_html_reports, fastp_fastq_files) = FASTP(fastq_files_1, fastq_files_2)
 
+    // 3. Post-QC on Trimmed Data
+    // post_qc_reports_html = POST_QC(fastp_fastq_files)
+
+    // 4. Combine all reports for MultiQC
     // multiqc_report = MultiQC(qc_fastq_files.collect()) // collect() operator returns a list of files; waits until the
     // previous process has been completed, QC here
 }
