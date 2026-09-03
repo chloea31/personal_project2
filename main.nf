@@ -57,6 +57,25 @@ process FasterqDump {
     """
 }
 
+process QC {
+
+    conda '/home/caujoulat/miniforge3/envs/qc'
+
+    // publishDir "${workflow.projectDir}/reports/baoshan_results/qc"
+
+    input:
+        path fastq
+
+    output:
+        //path "${fastq}.zip"
+        path "${fastq.simpleName}_fastqc.html"
+
+    script:
+    """
+    fastqc ${fastq}
+    """
+}
+
 process FASTP {
 
     conda '/home/caujoulat/miniforge3/envs/fastp'
@@ -79,24 +98,6 @@ process FASTP {
     """
 }
 
-process QC {
-
-    conda '/home/caujoulat/miniforge3/envs/qc'
-
-    // publishDir "${workflow.projectDir}/reports/baoshan_results/qc"
-
-    input:
-        path fastq
-
-    output:
-        path "${fastq.baseName}.{zip,html}"
-
-    script:
-    """
-    fastqc ${fastq}
-    """
-}
-
 process MultiQC {
 
     conda '/home/caujoulat/miniforge3/envs/multiqc'
@@ -116,7 +117,6 @@ process MultiQC {
     echo ${path2html_report} | tr ' ' '\n' > baoshan_file_list.txt
     multiqc --file-list baoshan_file_list.txt
     """
-
 }
 
 workflow {
@@ -131,14 +131,18 @@ workflow {
         .map { it.trim() } // Clean up whitespace; map() method allows application of an operation to each element of a list
     (sra_folders, accessions2) = Prefetch(accessions)
     (fastq_files_1, fastq_files_2) = FasterqDump(sra_folders, accessions2) // returns 2 lists of fastq files each time (each run)
-    // fastp_fastq_files = FASTP(fastq_files)
-    // qc_fastq_files = QC(fastq_files_1.mix(fastq_files_2)) 
+
+    // 1. Pre-QC on raw data
+    qc_reports_html = QC(fastq_files_1.mix(fastq_files_2)) 
     // flatten() calls QC for each element of the list, so 2 (1 and 2 here, for each accession)
     // It can call QC as soon as the 2 first elements of the previous process (FasterqDump here) has been completed.
     // Allows 13 -> 25 elements as inputs (because we have 2 files for each accession, and we run the QC for each FASTQ).
     // Channel: contains several elements inside, which follow each other, as a list.
     // FasterqDump: returns a list for each element of the list => Output: list of list.
     // flatten(): flattens the double list as a single list: takes a list of lists and returns a single list 
+
+    // fastp_fastq_files = FASTP(fastq_files)
+
     // multiqc_report = MultiQC(qc_fastq_files.collect()) // collect() operator returns a list of files; waits until the
     // previous process has been completed, QC here
 }
