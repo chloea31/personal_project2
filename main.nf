@@ -138,6 +138,27 @@ process MultiQC {
     """
 }
 
+process SPAdes {
+
+    conda '/home/caujoulat/miniforge3/envs/spades'
+
+    input:
+        path fastq_R1
+        path fastq_R2
+
+    output:
+        path "reports/baoshan_results/illumina/genome_assembly/spades"
+
+    script:
+    """
+    mkdir -p reports/baoshan_results/illumina/genome_assembly/spades
+    spades.py -1 ${fastq_R1} -2 ${fastq_R2} \
+        -k 67 \
+        -o reports/baoshan_results/illumina/genome_assembly/spades
+    """
+
+}
+
 workflow {
     println(workflow.commandLine)
     println(workflow.start)
@@ -173,6 +194,8 @@ workflow {
                     .collect()
     multiqc_report = MultiQC(ch_multiqc) // collect() operator returns a list of files; waits until the
     // previous process has been completed, QC here
+
+    spades_assembly = SPAdes(fastq_files_1, fastq_files_2)
 }
 
 // Cardinality: very important => Check the workflow (maybe ok here)
