@@ -1,0 +1,7 @@
+name: canu
+channels:
+  - conda-forge
+  - bioconda
+  - anaconda
+dependencies: 
+  - canu
