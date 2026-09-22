@@ -30,5 +30,9 @@ WORK_DIR="$PWD"
 /home/caujoulat/miniforge3/envs/canu/bin/canu -options
 
 ###############
-### Running Canu
+### Canu: Quick start
 ###############
+
+curl -L -o pacbio.fastq http://gembox.cbcb.umd.edu/mhap/raw/ecoli_p6_25x.filtered.fastq
+md5sum pacbio.fastq
+md5sum ecolk12mg1655_R10_3_guppy_345_HAC.fastq 
