@@ -39,3 +39,11 @@ md5sum ecolk12mg1655_R10_3_guppy_345_HAC.fastq
 
 canu -p ecoli -d ecoli-pacbio genomeSize=4.8m -pacbio pacbio.fastq redMemory=6 oeaMemory=6
 
+canu -p ecoli \
+    -d ecoli-oxford \
+    genomeSize=4.8m \
+    maxInputCoverage=100 \
+    -nanopore ecolk12mg1655_R10_3_guppy_345_HAC.fastq.gz \
+    maxMemory=6 \
+    redMemory=6 \
+    oeaMemory=6
