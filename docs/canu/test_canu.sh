@@ -36,3 +36,6 @@ WORK_DIR="$PWD"
 curl -L -o pacbio.fastq http://gembox.cbcb.umd.edu/mhap/raw/ecoli_p6_25x.filtered.fastq
 md5sum pacbio.fastq
 md5sum ecolk12mg1655_R10_3_guppy_345_HAC.fastq 
+
+canu -p ecoli -d ecoli-pacbio genomeSize=4.8m -pacbio pacbio.fastq redMemory=6 oeaMemory=6
+
