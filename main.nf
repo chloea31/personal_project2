@@ -19,7 +19,7 @@ process Prefetch {
 
     conda '/home/caujoulat/miniforge3/envs/download_data_viruses/'
 
-    publishDir "${workflow.projectDir}/data/baoshan/illumina/prefetch"
+    publishDir "${workflow.projectDir}/data/baoshan/nanopore/prefetch"
 
     input: // choose its name, not its value, so no whole path here
         val accession 
@@ -154,6 +154,8 @@ process SPAdes {
     mkdir -p reports/baoshan_results/illumina/genome_assembly/spades
     spades.py -1 ${fastq_R1} -2 ${fastq_R2} \
         -k 67 \
+        -t 1 \
+        -m 8 \
         -o reports/baoshan_results/illumina/genome_assembly/spades
     """
 
@@ -166,7 +168,7 @@ workflow {
     println(workflow.launchDir)
     println(workflow.homeDir)
     accessions = Channel
-        .fromPath("${workflow.projectDir}/data/baoshan/SRR_Acc_List_illumina.txt")
+        .fromPath("${workflow.projectDir}/data/baoshan/SRR_Acc_List_nanopore.txt")
         .splitText() // Reads the file and generates 1 element/input per row
         .map { it.trim() } // Clean up whitespace; map() method allows application of an operation to each element of a list
     (sra_folders, accessions2) = Prefetch(accessions)
@@ -195,7 +197,8 @@ workflow {
     multiqc_report = MultiQC(ch_multiqc) // collect() operator returns a list of files; waits until the
     // previous process has been completed, QC here
 
-    spades_assembly = SPAdes(fastq_files_1, fastq_files_2)
+    // Genome assembly
+    // spades_assembly = SPAdes((fastq_files_1, fastq_files_2).collect())
 }
 
 // Cardinality: very important => Check the workflow (maybe ok here)
