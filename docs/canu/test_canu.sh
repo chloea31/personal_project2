@@ -47,3 +47,11 @@ canu -p ecoli \
     maxMemory=6 \
     redMemory=6 \
     oeaMemory=6
+
+
+curl -L -o ecoli.fastq https://sra-pub-src-1.s3.amazonaws.com/SRR10971019/m54316_180808_005743.fastq.1
+
+canu \
+    -p asm -d ecoli_hifi \
+    genomeSize=4.8m \
+    -pacbio-hifi ecoli.fastq
