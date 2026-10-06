@@ -60,3 +60,7 @@ canu \
 curl -L -o K12.parental.fasta https://gembox.cbcb.umd.edu/triobinning/example/k12.12.fasta
 curl -L -o O157.parental.fasta https://gembox.cbcb.umd.edu/triobinning/example/o157.12.fasta
 curl -L -o F1.fasta https://gembox.cbcb.umd.edu/triobinning/example/pacbio.fasta
+
+md5sum K12.parental.fasta
+md5sum O157.parental.fasta
+md5sum F1.fasta
