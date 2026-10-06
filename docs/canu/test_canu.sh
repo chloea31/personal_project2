@@ -55,3 +55,8 @@ canu \
     -p asm -d ecoli_hifi \
     genomeSize=4.8m \
     -pacbio-hifi ecoli.fastq
+
+
+curl -L -o K12.parental.fasta https://gembox.cbcb.umd.edu/triobinning/example/k12.12.fasta
+curl -L -o O157.parental.fasta https://gembox.cbcb.umd.edu/triobinning/example/o157.12.fasta
+curl -L -o F1.fasta https://gembox.cbcb.umd.edu/triobinning/example/pacbio.fasta
