@@ -64,3 +64,13 @@ curl -L -o F1.fasta https://gembox.cbcb.umd.edu/triobinning/example/pacbio.fasta
 md5sum K12.parental.fasta
 md5sum O157.parental.fasta
 md5sum F1.fasta
+
+canu \
+    -p asm -d ecoliTrio \
+    genomeSize=5m \
+    -haplotypeK12 K12.parental.fasta \
+    -haplotypeO157 O157.parental.fasta \
+    -pacbio F1.fasta \
+    maxMemory=6 \
+    redMemory=6 \
+    oeaMemory=6
