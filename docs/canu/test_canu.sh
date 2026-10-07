@@ -75,6 +75,7 @@ canu \
     redMemory=6 \
     oeaMemory=6
 
+### Co-assembling the datasets
 canu \
     -p asm -d ecoliHap \
     genomeSize=5m \
