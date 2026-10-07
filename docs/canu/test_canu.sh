@@ -74,3 +74,12 @@ canu \
     maxMemory=6 \
     redMemory=6 \
     oeaMemory=6
+
+canu \
+    -p asm -d ecoliHap \
+    genomeSize=5m \
+    corOutCoverage=200 "batOptions=-dg 3 -db 3 -dr 1 -ca 500 -cp 50" \
+    -pacbio F1.fasta \
+    maxMemory=6 \
+    redMemory=6 \
+    oeaMemory=6
