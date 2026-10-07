@@ -84,3 +84,16 @@ canu \
     maxMemory=6 \
     redMemory=6 \
     oeaMemory=6
+
+
+curl -L -o mix.tar.gz http://gembox.cbcb.umd.edu/mhap/raw/ecoliP6Oxford.tar.gz
+tar xvzf mix.tar.gz
+
+canu \
+    -p ecoli -d ecoli-mix \
+    genomeSize=4.8m \
+    -pacbio pacbio.part?.fastq.gz \
+    -nanopore oxford.fasta.gz \
+    maxMemory=6 \
+    redMemory=6 \
+    oeaMemory=6
