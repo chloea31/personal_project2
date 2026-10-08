@@ -98,3 +98,4 @@ canu \
     maxMemory=6 \
     redMemory=6 \
     oeaMemory=6
+# down not work: might be due to either computational resources, or issues related to installation of the package
