@@ -99,3 +99,11 @@ canu \
     redMemory=6 \
     oeaMemory=6
 # down not work: might be due to either computational resources, or issues related to installation of the package
+
+canu -correct \
+    -p ecoli -d ecoli \
+    genomeSize=4.8m \
+    -pacbio  pacbio.fastq \
+    maxMemory=6 \
+    redMemory=6 \
+    oeaMemory=6
