@@ -97,3 +97,4 @@ canu \
     maxMemory=6 \
     redMemory=6 \
     oeaMemory=6
+# does not work (probably due to a lack of computational resources)
