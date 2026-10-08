@@ -107,3 +107,37 @@ canu -correct \
     maxMemory=6 \
     redMemory=6 \
     oeaMemory=6
+    # same as before: overlap fails (may be due to lack of computational resources or installation issues)
+
+canu -trim \
+    -p ecoli -d ecoli \
+    genomeSize=4.8m \
+    -corrected -pacbio ecoli/ecoli.correctedReads.fasta.gz
+
+canu \
+    -p ecoli -d ecoli-erate-0.039 \
+    genomeSize=4.8m \
+    correctedErrorRate=0.039 \
+    -trimmed -corrected -pacbio ecoli/ecoli.trimmedReads.fasta.gz
+
+canu \
+    -p ecoli -d ecoli-erate-0.075 \
+    genomeSize=4.8m \
+    correctedErrorRate=0.075 \
+    -trimmed -corrected -pacbio ecoli/ecoli.trimmedReads.fasta.gz
+
+### Try uncorrected ONT assembly
+canu \
+    -p ecoli -d ecoli-oxford-uncorrected \
+    genomeSize=4.8m \
+    -untrimmed correctedErrorRate=0.12 maxInputCoverage=100 'batOptions=-eg 0.10 -sb 0.01 -dg 2 -db 1 -dr 3' \
+    -pacbio-hifi ecolk12mg1655_R10_3_guppy_345_HAC.fastq
+
+### Assembling low coverage datasets
+curl -L -o yeast.20x.fastq.gz http://gembox.cbcb.umd.edu/mhap/raw/yeast_filtered.20x.fastq.gz
+
+canu \
+    -p asm -d yeast \
+    genomeSize=12.1m \
+    correctedErrorRate=0.105 \
+    -pacbio yeast.20x.fastq.gz
