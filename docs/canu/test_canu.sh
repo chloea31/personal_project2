@@ -84,6 +84,7 @@ canu \
     maxMemory=6 \
     redMemory=6 \
     oeaMemory=6
+# does not work (probably due to a lack of computational resources)
 
 
 curl -L -o mix.tar.gz http://gembox.cbcb.umd.edu/mhap/raw/ecoliP6Oxford.tar.gz
@@ -97,4 +98,3 @@ canu \
     maxMemory=6 \
     redMemory=6 \
     oeaMemory=6
-# does not work (probably due to a lack of computational resources)
