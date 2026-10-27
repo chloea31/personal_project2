@@ -68,6 +68,7 @@ This project is developed by Chloé Aujoulat.
 - Downloading data from SRA NCBI database: 
     - https://bioinformatics.ccr.cancer.gov/docs/b4b/Module1_Unix_Biowulf/Lesson6/
     - https://bioinformaticsworkbook.org/dataAcquisition/fileTransfer/sra.html#gsc.tab=0 
+    - https://bioinformatics.ccr.cancer.gov/docs/bioinformatics-for-beginners-2025/Module2_RNA_Sequencing/Lesson7/
 
 ### Articles
 - Xia, Yucheng, Huanyu Cheng, et Jiang Zhong. « Hybrid Sequencing Resolved Inverted Terminal Repeats in the Genome of Megavirus Baoshan ». Frontiers in Microbiology 13 (mai 2022): 831659. https://doi.org/10.3389/fmicb.2022.831659.
